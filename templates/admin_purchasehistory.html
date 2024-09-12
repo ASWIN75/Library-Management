@@ -1,0 +1,122 @@
+{% extends 'admin_nav.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .container {
+        padding: 20px;
+        margin-left: 220px; /* Adjusted to fit next to the vertical nav */
+        margin-right: auto;
+        max-width: calc(100% - 220px); /* Adjusted to fit the width next to the vertical nav */
+    }
+
+    .table-responsive {
+        border-radius: 10px;
+        overflow-x: auto;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        background-color: white;
+        border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+        padding: 10px;
+        vertical-align: middle;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .thead-dark th {
+        background-color: #343a40;
+        color: white;
+        font-weight: bold;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .table-bordered {
+        border: 1px solid #dee2e6;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; /* Adjust margin for small screens */
+            max-width: 100%; /* Full width for small screens */
+        }
+        .table th,
+        .table td {
+            padding: 8px;
+            font-size: 0.9rem;
+        }
+
+        .table {
+            font-size: 0.85rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .table th,
+        .table td {
+            padding: 6px;
+            font-size: 0.8rem;
+        }
+
+        .table {
+            font-size: 0.8rem;
+        }
+    }
+
+    h3 {
+        color: #343a40; /* Dark gray for the heading */
+    }
+</style>
+
+<div class="container mt-5">
+    <h4 class="text-center mb-4">Admin Purchase History</h4>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Book Name</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Purchase Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if purchase %}
+                    {% for p in purchase %}
+                        <tr>
+                            <td>{{ p.book.book_name }}</td>
+                            <td>{{ p.user.first_name }}</td>
+                            <td>₹{{ p.book.price }}</td>
+                            <td>{{ p.quantity }}</td>
+                            <td>{{ p.purchase_date }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center">No purchase history available</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center">No purchase history available</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

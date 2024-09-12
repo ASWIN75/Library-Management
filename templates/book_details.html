@@ -1,0 +1,125 @@
+{% extends 'admin_nav.html' %}
+
+{% block title %}
+View Books
+{% endblock %}
+
+{% block content %}
+
+<style>
+    body {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .container {
+        padding-top: 70px;
+        margin-left: 220px; /* Adjust to prevent overlap with vertical navbar */
+        padding-right: 15px;
+        max-width: calc(100% - 240px); /* Ensure container width does not overlap the navbar */
+    }
+
+    @media (max-width: 991px) {
+        .container {
+            margin-left: 0; /* Remove margin on smaller screens */
+            padding-top: 100px;
+            max-width: 100%; /* Full width on smaller screens */
+        }
+    }
+
+    .table-responsive {
+        max-width: 100%;
+        overflow-x: auto; /* Enable horizontal scrolling */
+    }
+
+    .table {
+        width: 100%; /* Ensure table width adapts to container */
+        border-collapse: collapse;
+    }
+
+    .table th, .table td {
+        padding: 8px;
+        text-align: center;
+        vertical-align: middle;
+        border: 1px solid #ddd;
+        white-space: nowrap; /* Prevent text from wrapping */
+    }
+
+    .table thead th {
+        background-color: #f8f9fa;
+        color: #212529;
+        font-weight: 600;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .table img {
+        max-width: 60px; /* Smaller image size */
+        height: auto;
+    }
+
+    .btn {
+        margin: 0 2px;
+        font-size: 0.875rem;
+    }
+</style>
+
+<div class="container">
+    {% if messages %}
+                <div class="alert alert-success">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                    
+                </div>
+            {% endif %}
+    <h4 class="text-center mb-4">Book Details</h4>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="book-name">Book Name</th>
+                    <th class="author-name">Author Name</th>
+                    <th class="publisher-id">Publisher Id</th>
+                    <th>Stocks</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                    <th>Category</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for b in books %}
+                <tr>
+                    <td class="book-name">{{ b.book_name }}</td>
+                    <td class="author-name">{{ b.auther_name }}</td>
+                    <td class="publisher-id">{{ b.bpid }}</td>
+                    <td>{{ b.stocks }}</td>
+                    <td>{{ b.price }}</td>
+                    <td>
+                        {% if b.img %}
+                            <img src="{{ b.img.url }}" alt="Book Image">
+                        {% else %}
+                            No Image
+                        {% endif %}
+                    </td>
+                    <td>{{ b.category.category_name }}</td>
+                    <td>
+                        <a href="{% url 'edit_book' b.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                        <a href="{% url 'delete_book' b.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,190 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Library Management</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+    .hero-image {
+      background-image: url('https://img.pikbest.com/wp/202351/access-realistic-3d-rendering-of-laptop-accessing-online-library_9787885.jpg!w700wp');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      margin-top: 0;
+    }
+    .hero-text {
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
+    }
+    .card-deck .card {
+      margin-bottom: 30px;
+      flex: 1 1 30%;
+    }
+    .card-img-top {
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 2px solid #ddd;
+    }
+    body {
+      overflow-x: hidden;
+    }
+    .navbar-nav .nav-link {
+      color: white !important;
+      font-size: 1rem;
+      padding: 8px 12px;
+      transition: color 0.3s ease-in-out;
+      text-transform: uppercase;
+    }
+    .navbar-nav .nav-link:hover {
+      color: #f8b400 !important;
+      text-decoration: underline;
+    }
+    .navbar-nav .nav-link.signup {
+      font-weight: bold;
+      color: #f8b400 !important;
+    }
+    .navbar-nav .nav-link.signup:hover {
+      color: #cc9200 !important;
+    }
+    .additional-section {
+      background-color: #f8f9fa;
+      padding: 50px 0;
+    }
+    .additional-section h2 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .additional-section .feature {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .additional-section .feature img {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+    .additional-section .feature h5 {
+      font-size: 1.25rem;
+    }
+    footer {
+      background-color: #343a40;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    footer a {
+      color: #f8b400;
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color 0.3s;
+      
+    }
+    footer a:hover {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
+  <a class="navbar-brand" href="{% url 'home' %}">
+    <b>Library</b>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link signup" href="{% url 'user_register' %}">Signup</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'login' %}">Login</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="hero-image">
+  <div class="hero-text">
+    <h1>Welcome to Our Library</h1>
+    <p>Your gateway to a world of knowledge and adventure. Explore our collection and find your next great read!</p>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="card-deck">
+    <div class="card">
+      <img class="card-img-top" src="https://img.freepik.com/premium-photo/this-beautiful-interesting-design-is-made-book-day_1119325-62046.jpg" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">Vast Collection</h5>
+        <p class="card-text">Explore a wide range of books from various genres and authors. Discover your next favorite book!</p>
+      </div>
+    </div>
+    <div class="card">
+      <img class="card-img-top" src="https://img.freepik.com/premium-photo/world-book-day-background-image_669954-23813.jpg?w=360" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">Convenient Access</h5>
+        <p class="card-text">Access your favorite books from anywhere, anytime. Our library is always at your fingertips.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img class="card-img-top" src="https://img.freepik.com/premium-photo/flat-world-book-day-illustration-open-book-with-fantasy-world-popping-out-generative-ai_421953-3775.jpg" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">Personalized Recommendations</h5>
+        <p class="card-text">Get book recommendations based on your reading history and preferences.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="additional-section">
+  <div class="container">
+    <h2>Why Choose Our Library?</h2>
+    <div class="row">
+      <div class="col-md-4 feature">
+        <img src="https://img.icons8.com/dusk/64/000000/book-shelf.png" alt="Feature 1">
+        <h5>Wide Range of Books</h5>
+        <p>From fiction to non-fiction, science to history, we have it all!</p>
+      </div>
+      <div class="col-md-4 feature">
+        <img src="https://img.icons8.com/dusk/64/000000/bookmark.png" alt="Feature 2">
+        <h5>Bookmark Your Favorites</h5>
+        <p>Easily bookmark and organize your reading list with our user-friendly interface.</p>
+      </div>
+      <div class="col-md-4 feature">
+        <img src="https://img.icons8.com/dusk/64/000000/reading.png" alt="Feature 3">
+        <h5>Read Anytime, Anywhere</h5>
+        <p>Access our collection online or offline, and read on the go!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2024 Library Management System. All rights reserved.</p>
+    <p>
+      <a href="#">Privacy Policy</a> | 
+      <a href="#">Terms of Service</a> | 
+      <a href="#">Contact Us</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

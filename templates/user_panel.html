@@ -1,0 +1,47 @@
+{% extends "user_nav.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    {% if messages %}
+                <div class="alert alert-success">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                    
+                </div>
+            {% endif %}
+    <div class="row">
+        {% for book in books %}
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="card mb-4 shadow-sm">
+                <img src="{{ book.img.url }}" class="card-img-top" alt="{{ book.book_name }}" 
+                     style="width: 100%; height: 200px; object-fit: contain;">
+                <div class="card-body p-2">
+                    <h5 class="card-title" style="font-size: 16px;">{{ book.book_name }}</h5>
+                    <p class="card-text mb-1" style="font-size: 14px;"><strong>Author:</strong> {{ book.auther_name }}</p>
+                    <p class="card-text mb-1" style="font-size: 14px;"><strong>Price:</strong> ₹{{ book.price }}</p>
+                    <p class="card-text mb-1" style="font-size: 14px;"><strong>Stock:</strong> {{ book.stocks }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            {% if book.stocks > 0 %}
+                                <a href="{% url 'rent_book' book.id %}" class="btn btn-sm btn-outline-secondary">Rent</a>
+                                <a href="{% url 'cart' book.id %}" class="btn btn-sm btn-outline-primary">Purchase</a>
+                            {% else %}
+                                <!-- No buttons to display if the stock is 0 -->
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if book.stocks == 0 %}
+                        <div class="text-danger text-center mt-2">Not Available</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-center">No results found.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,153 @@
+{% extends 'admin_nav.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .container {
+        padding: 20px;
+        margin-left: 220px; /* Adjusted to fit next to the vertical nav */
+        margin-right: auto;
+        max-width: calc(100% - 220px); /* Adjusted to fit the width next to the vertical nav */
+    }
+
+    .table-responsive {
+        border-radius: 10px;
+        overflow-x: auto;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        background-color: white;
+        border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+        padding: 10px;
+        vertical-align: middle;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .thead-dark th {
+        background-color: #343a40;
+        color: white;
+        font-weight: bold;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .table-bordered {
+        border: 1px solid #dee2e6;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0; /* Adjust margin for small screens */
+            max-width: 100%; /* Full width for small screens */
+        }
+        .table th,
+        .table td {
+            padding: 8px;
+            font-size: 0.9rem;
+        }
+
+        .table {
+            font-size: 0.85rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .table th,
+        .table td {
+            padding: 6px;
+            font-size: 0.8rem;
+        }
+
+        .table {
+            font-size: 0.8rem;
+        }
+    }
+
+    h4 {
+        color: #343a40; /* Dark gray for the heading */
+    }
+</style>
+
+<div class="container mt-5">
+    <h4 class="text-center mb-4">Admin Rental History</h4>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Book Name</th>
+                    <th>User Name</th>
+                    <th>Rental Date</th>
+                    <th>Due Date</th>
+                    <th>Return Date</th>
+                    <th>Return Status</th>
+                    <th>Fine Amount</th>
+                    <th>Fine Status</th>
+                    {% comment %} <th>Fine Payed</th> {% endcomment %}
+                </tr>
+            </thead>
+            <tbody>
+                {% if rentals %}
+                    {% for rental in rentals %}
+                        <tr>
+                            <td>{{ rental.book.book_name }}</td>
+                            <td>{{ rental.user.first_name }}</td>
+                            <td>{{ rental.rent_date }}</td>
+                            <td>{{ rental.due_date }}</td>
+                            <td>{{ rental.returned_date}}</td>
+                            <td>{{ rental.return_status }}</td>
+                            {% comment %} <td>₹{{ rental.fine_payed|default:"0" }}</td> {% endcomment %}
+                            <td>
+                                {% if rental.payment_status == 'Paid' %}
+                                  ₹{{ rental.fine_payed }}
+                                {% else %}
+                                  ₹{{ rental.fine_amount }}
+                                {% endif %}
+                              </td>
+                              
+                            {% comment %} <td>₹{{ rental.fine_payed|default:"0" }}</td> {% endcomment %}
+                            
+                            <td>
+                                {% if rental.fine_amount > 0 %}
+                                    {% if rental.return_status == 'Returned' %}
+                                        {% if rental.fine_amount == 0 %}
+                                            Paid
+                                        {% else %}
+                                            Non-Paid
+                                        {% endif %}
+                                    {% else %}
+                                        Not Paid
+                                    {% endif %}
+                                {% else %}
+                                {{ rental.payment_status }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">No rental history available</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center">No rental history available</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

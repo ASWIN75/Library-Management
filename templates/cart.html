@@ -1,0 +1,139 @@
+{% extends 'user_nav2.html' %}
+{% load static %}
+{% block title %}
+View Cart
+{% endblock %}
+
+{% block content %}
+
+<style>
+    /* Flexbox layout for keeping footer at the bottom */
+    body, html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+    .container {
+        flex-grow: 1; /* Ensure the content area grows to fill space */
+    }
+    
+    /* Style for footer at the bottom */
+    footer {
+        background-color: #343a40;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+    }
+    
+    /* Background settings */
+    body {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .custom-width {
+        max-width: 400px; /* Set a maximum width for the form */
+    }
+
+    #im1 {
+        width: 100px; /* Adjust the size of images */
+        height: auto;
+    }
+
+    .btn-icon {
+        width: 20px; /* Adjust size of the delete icon */
+        height: auto;
+    }
+
+    /* Responsive table adjustments */
+    @media (max-width: 768px) {
+        .table-responsive {
+            overflow-x: auto; /* Enable horizontal scrolling on smaller screens */
+        }
+        .table thead {
+            display: none; /* Hide table headers on small screens */
+        }
+        .table tbody td {
+            display: block; /* Display table cells as block elements */
+            width: 100%; /* Make them take full width */
+            text-align: right; /* Align text to the right */
+            position: relative; /* Position relative for pseudo-elements */
+            padding-left: 50%; /* Add padding to simulate columns */
+            box-sizing: border-box;
+        }
+        .table tbody td::before {
+            content: attr(data-label); /* Use data-label attribute for header labels */
+            position: absolute;
+            left: 0;
+            width: 50%; /* Label takes up half the cell */
+            padding-left: 15px;
+            font-weight: bold;
+            text-align: left;
+            box-sizing: border-box;
+        }
+        .btn-icon {
+            margin-top: 10px; /* Add spacing for icons on smaller screens */
+            display: inline-block;
+        }
+    }
+</style>
+
+<div class="container mt-4">
+    {% comment %} {% if messages %}
+                <div class="alert alert-success">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                    
+                </div>
+            {% endif %} {% endcomment %}
+    <h4 class="text-center">Cart</h4>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Book Image</th>
+                    <th>Book Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td data-label="Book Image"><img src="{{ item.book.img.url }}" class="card-img-top" alt="{{ item.book.book_name }}" 
+                        style="width: 100px; height: 100px; object-fit: contain;"></td>
+                    <td data-label="Book Name">{{ item.book.book_name }}</td>
+                    <td data-label="Price">₹{{ item.book.price }}</td>
+                    <td data-label="Quantity">
+                        <a class="btn btn-sm btn-danger ml-2" href="{% url 'decrease_quantity' item.book.id %}"><i class="fas fa-minus">-</i></a>
+                        {{ item.quantity }}
+                        <a class="btn btn-sm btn-primary ml-2" href="{% url 'increase_quantity' item.book.id %}"><i class="fas fa-plus">+</i></a>
+                    </td>
+                    <td data-label="Subtotal">₹{{ item.total_price }}</td>
+                    <td data-label="Remove">
+                        <a href="{% url 'remove_item' item.book.id %}">
+                            <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/delete-3807729-3173196.png?f=webp&w=256" class="btn-icon" alt="Delete">
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-center mt-3">
+            <h1>Total: ₹{{ total_price }}</h1>
+            <a class="btn btn-info mt-3" href="{% url 'checkout' %}">Checkout</a>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

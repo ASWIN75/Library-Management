@@ -1,0 +1,108 @@
+{% extends 'user_nav.html' %}
+
+{% block title %}
+View Profile
+{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #FCFBF4;
+        margin: 0;
+        padding: 0;
+    }
+    .card-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column; /* Added to stack message and card */
+    }
+    .card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 40px;
+        max-width: 550px;
+        width: 100%;
+        margin: 20px;
+        margin-top: 20px;
+    }
+    .card-header {
+        font-size: 1.25rem;
+        margin-bottom: 15px;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+    }
+    .card-body {
+        font-size: 0.9rem;
+    }
+    .profile-detail {
+        margin-bottom: 10px;
+    }
+    .profile-detail strong {
+        display: inline-block;
+        width: 150px;
+        font-weight: 600;
+    }
+    .btn-edit {
+        background-color: #007bff;
+        border: none;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        width: 100%;
+        display: block;
+        margin-top: 20px;
+    }
+    .btn-edit:hover {
+        background-color: #0056b3;
+    }
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 15px;
+        border-radius: 5px;
+        width: 100%;
+        max-width: 550px;
+        text-align: center;
+        margin-top: 20px; /* Adjusted margin for spacing */
+    }
+</style>
+
+<div class="container card-container">
+    {% if messages %}
+        <div class="alert alert-success">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="card">
+        <h3 class="card-header">Profile Details</h3>
+        <div class="card-body">
+            <div class="profile-detail">
+                <strong>First Name:</strong> {{ user.first_name }}
+            </div>
+            <div class="profile-detail">
+                <strong>Last Name:</strong> {{ user.last_name }}
+            </div>
+            <div class="profile-detail">
+                <strong>Username:</strong> {{ user.username }}
+            </div>
+            <div class="profile-detail">
+                <strong>Age:</strong> {{ libraryuser.age }}
+            </div>
+            <div class="profile-detail">
+                <strong>Email:</strong> {{ user.email }}
+            </div>
+            <div class="profile-detail">
+                <strong>Contact Number:</strong> {{ libraryuser.number }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

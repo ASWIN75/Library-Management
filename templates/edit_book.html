@@ -1,0 +1,120 @@
+{% extends 'admin_nav.html' %}
+
+{% block title %}
+Edit Book
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .card {
+        border: none;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        width: 100%;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+    }
+
+    .form-control, .form-control-file, .form-select {
+        border-radius: 4px;
+        border: 1px solid #ced4da;
+        margin-bottom: 15px;
+        padding: 10px;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #343a40;
+        box-shadow: none;
+    }
+
+    .btn-primary {
+        background-color: #343a40;
+        border-color: #343a40;
+        font-weight: 600;
+        padding: 10px;
+        font-size: 1rem;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #23272b;
+        color: #fff;
+    }
+
+    .container {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    @media (max-width: 576px) {
+        .card {
+            max-width: 95%;
+            padding: 15px;
+        }
+
+        .btn-primary {
+            font-size: 0.9rem;
+            padding: 8px;
+        }
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="card">
+        <h4 class="text-center mb-4">Edit Book Details</h4>
+
+        {% if messages %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" id="book_name" name="book_name" class="form-control" placeholder="Book Name" value="{{ book.book_name }}" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="auther_name" name="auther_name" class="form-control" placeholder="Author Name" value="{{ book.auther_name }}" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="text" id="bpid" name="bpid" class="form-control" placeholder="Publisher ID" value="{{ book.bpid }}">
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="number" id="stocks" name="stocks" class="form-control" placeholder="Stocks" value="{{ book.stocks }}" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="number" id="price" name="price" class="form-control" placeholder="Price" value="{{ book.price }}" required>
+            </div>
+            <div class="form-group">
+                <input type="file" id="img" name="img" class="form-control-file" accept="image/*">
+                {% if book.img %}
+                <img src="{{ book.img.url }}" alt="Book Image" style="width: 80px; height: auto;" class="mt-2">
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="sel" class="form-label">Category</label>
+                <select id="sel" name="sel" class="form-select" required>
+                    {% for category in categories %}
+                    <option value="{{ category.id }}" {% if category.id == book.category.id %}selected{% endif %}>{{ category.category_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary w-100">Update Book</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

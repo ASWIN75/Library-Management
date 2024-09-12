@@ -1,0 +1,45 @@
+{% extends "user_nav2.html" %}
+{% block content %}
+<div class="container mt-5" style="min-height: 80vh;">
+    <h4>Rent {{ book.book_name }}</h4>
+    {% if messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+        
+    </div>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="rental_date">Rental Date:</label>
+            <input type="date" id="rental_date" name="rental_date" class="form-control" required>
+        </div>
+        <script>
+            // Get today's date in YYYY-MM-DD format
+            var today = new Date().toISOString().split('T')[0];
+            // Set the min attribute to today's date
+            document.getElementById('rental_date').setAttribute('min', today);
+            // Set the value to today's date
+            document.getElementById('rental_date').value = today;
+        </script> 
+        
+
+        <div class="form-group">
+            <label for="return_date">Return Date:</label>
+            <input type="date" id="return_date" name="return_date" class="form-control" required>
+        </div>
+        <script>
+            // Get today's date in YYYY-MM-DD format
+            var today = new Date().toISOString().split('T')[0];
+            // Set the min attribute to today's date
+            document.getElementById('return_date').setAttribute('min', today);
+            // Set the value to today's date
+            document.getElementById('return_date').value = today;
+        </script> 
+        <button type="submit" class="btn btn-secondary">Submit</button>
+    </form>
+</div>
+{% endblock %}

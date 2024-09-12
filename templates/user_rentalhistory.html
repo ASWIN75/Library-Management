@@ -1,0 +1,112 @@
+{% extends 'user_nav2.html' %}
+
+{% block content %}
+
+<style>
+    body {
+        background-color: dark;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .container {
+        flex-grow: 1;
+        margin-top: 20px;
+    }
+
+    .table-responsive {
+        overflow-x: auto; /* Enable horizontal scrolling */
+    }
+
+    /* Keep the table structure same in all viewports */
+    @media (max-width: 768px) {
+        .table-responsive {
+            overflow-x: auto; /* Enable horizontal scroll */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
+        }
+
+        table {
+            width: 100%; /* Ensure the table takes full width */
+        }
+
+        /* Optional: Add some padding to improve readability */
+        td, th {
+            padding: 10px;
+        }
+    }
+</style>
+
+<div class="container">
+    {% if messages %}
+                <div class="alert alert-success">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                    
+                </div>
+            {% endif %}
+    <h4 class="text-center">Your Rental History</h4>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Book Name</th>
+                    <th>Price</th>
+                    <th>Rental Date</th>
+                    <th>Due Date</th>
+                    {% comment %} <th>Returned Date</th> {% endcomment %}
+                    <th>Fine Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rental in rentals %}
+                <tr>
+                    <td>{{ rental.book.book_name }}</td>
+                    <td>₹{{ rental.book.price }}</td>
+                    <td>{{ rental.rent_date }}</td>
+                    <td>{{ rental.due_date }}</td>
+                    {% comment %} <td>{{ rental.returned_date}}</td> {% endcomment %}
+                    <td>₹{{ rental.fine_amount|default:"0" }}</td>
+                    <td>
+                        {% if rental.return_status == "Returned" %}
+                            <span class="text-success">Returned</span>
+                        {% elif rental.return_status == "Pending" %}
+                            {% if rental.fine_amount and rental.fine_amount > 0 %}
+                                <form action="{% url 'pay_fine' rental.book.id %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="amount" value="{{ rental.book.price|add:0.10|floatformat:2 }}">
+                                    <button type="submit" class="btn btn-sm btn-outline-warning">
+                                        Pay Fine (₹{{ rental.fine_amount}})
+                                    </button>
+                                </form>
+                            {% else %}
+                                <form action="{% url 'return_book' rental.book.id %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-outline-success">Return</button>
+                                </form>
+                            {% endif %}
+                            {% if not rental.issue_reported %}
+                            <form action="{% url 'report_issue' rental.book.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Report Issue</button>
+                            </form>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No rental history available</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

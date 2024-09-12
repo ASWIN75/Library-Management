@@ -1,0 +1,148 @@
+{% extends "admin_nav.html" %}
+{% load static %}
+{% block content %}
+<style>
+    .container-fluid {
+        padding: 30px;
+    }
+
+    .row {
+        margin-top: 20px;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .card img {
+        border-radius: 5px 5px 0 0;
+        height: 180px;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .card-text {
+        font-size: 1rem;
+    }
+
+    .content-wrapper {
+        margin-left: 250px;
+        padding: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .btn-primary {
+        background-color: black; /* Change button background color to black */
+        border-color: black; /* Change button border color to black */
+    }
+
+    .btn-primary:hover {
+        background-color: #333; /* Darken button on hover */
+        border-color: #333;
+    }
+
+    @media (max-width: 768px) {
+        .content-wrapper {
+            margin-left: 0;
+        }
+        
+        .row {
+            margin-top: 10px;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-md-4 d-flex justify-content-center">
+            <div class="card">
+                <img src="https://www.pngfind.com/pngs/m/238-2386677_from-top-view-free-icons-designed-by-book.png" class="card-img-top" alt="Books">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Books</h5>
+                    <p class="card-text">Add, edit, or delete books in the library.</p>
+                    <a href="{% url 'add_books' %}" class="btn btn-primary">Go to Books</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 d-flex justify-content-center">
+            <div class="card">
+                <img src="https://cdn.vectorstock.com/i/500p/47/79/book-icons-set-vector-1604779.jpg" class="card-img-top" alt="Categories">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Categories</h5>
+                    <p class="card-text">Add or edit book categories of each book here.</p>
+                    <a href="{% url 'add_category' %}" class="btn btn-primary">Go to Categories</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 d-flex justify-content-center">
+            <div class="card">
+                <img src="https://thumbs.dreamstime.com/z/man-reading-book-vector-icon-man-reading-book-vector-icon-isolated-white-background-142616923.jpg" class="card-img-top" alt="Users">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Users</h5>
+                    <p class="card-text">View and manage library users.Monitor every users</p>
+                    <a href="{% url 'user_details' %}" class="btn btn-primary">Go to Users</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 d-flex justify-content-center">
+            <div class="card">
+                <img src="https://cdn4.vectorstock.com/i/1000x1000/62/53/university-history-book-icon-outline-style-vector-34216253.jpg" class="card-img-top" alt="Rental History">
+                <div class="card-body">
+                    <h5 class="card-title">Rental History</h5>
+                    <p class="card-text">View rental history of all the registered users.</p>
+                    <a href="{% url 'admin_rentalhistory' %}" class="btn btn-primary">View Rental History</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 d-flex justify-content-center">
+            <div class="card">
+                <img src="https://as2.ftcdn.net/v2/jpg/02/24/51/55/1000_F_224515585_u7Bw0f9Fls6I1fUgadLOOgymupNUKaX4.jpg" class="card-img-top" alt="Purchase History">
+                <div class="card-body">
+                    <h5 class="card-title">Purchase History</h5>
+                    <p class="card-text">View purchase history of all the registered users.</p>
+                    <a href="{% url 'admin_purchase_history' %}" class="btn btn-primary">View Purchase History</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 d-flex justify-content-center">
+            <div class="card">
+                <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/damage-book-3862678-3270184.png" class="card-img-top" alt="Damaged Books">
+                <div class="card-body">
+                    <h5 class="card-title">Damaged Books</h5>
+                    <p class="card-text">Manage reports of damaged books and recieve fine.</p>
+                    <a href="{% url 'admin_damage_report' %}" class="btn btn-primary">View Reports</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
